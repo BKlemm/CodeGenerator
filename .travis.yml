@@ -1,0 +1,49 @@
+language: php
+
+php:
+  - 7.4
+
+before_install:
+  - mv ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini{,.disabled} || echo "xdebug not available"
+  - travis_retry composer self-update
+
+install:
+  - rm composer.lock
+  - travis_retry composer update --prefer-dist --no-suggest --no-progress --no-interaction
+
+after_success: "sbt coveralls"
+
+jobs:
+  include:
+    - stage: Test
+      if: type = cron
+      php: 7.4
+
+    - stage: Test
+      before_script:
+        - mv ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini{.disabled,}
+        - if [[ ! $(php -m | grep -si xdebug) ]]; then echo "xdebug required for coverage"; exit 1; fi
+      script:
+        - composer run-script test
+
+    - stage: Static Code Analysis
+      php: 7.4
+      install: travis_retry composer install --prefer-dist
+      script:
+        - composer run-script phpstan
+
+    - stage: Coding Standard
+      php: 7.4
+      install: travis_retry composer install --prefer-dist
+      script:
+        - composer run-script phpcs
+
+    allow_failures:
+      - stage: Static Code Analysis
+      - stage: Coding Standard
+
+sudo: false
+
+cache:
+  directories:
+    - $HOME/.composer/cache

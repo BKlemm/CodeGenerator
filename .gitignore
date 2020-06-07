@@ -1,0 +1,6 @@
+.idea
+.DS_Store
+.phpunit.result.cache
+.phpcs-cache
+vendor
+_output
