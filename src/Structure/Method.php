@@ -121,7 +121,7 @@ class Method implements CommentInterface
 
     public function validate(): void
     {
-
+        $this->validateName();
     }
 
     /**

@@ -44,7 +44,7 @@ trait NameTrait
     /**
      *
      */
-    public function validateName(): void
+    protected function validateName(): void
     {
         $pattern = "/[A-Za-z_][\w]*/";
         if (!preg_match($pattern, $this->name)) {
