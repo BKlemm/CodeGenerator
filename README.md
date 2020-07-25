@@ -18,7 +18,7 @@ $ composer require jtgenerator/jtgenerator
 ```
 
 # Usage
-Define Constants:
+Define initialized constants:
 ```php
 $state = new Constant('TASK');
 $state->setValue('data');
@@ -31,10 +31,11 @@ echo $file;
 ```
 
 Results:
-```javascript
+```
 export const TASK = 'data';
 ```
 
+Define constants as object:
 ```php
 $state = new Constant('state');
 $state->setExport();
@@ -46,7 +47,7 @@ echo $file;
 ```
 
 Results:
-```javascript
+```
 export const state = {
 
 };
@@ -65,7 +66,8 @@ $method2->setBody('if (state.active >= 1) { state.active-- }');
 $s = new Constant('mutations');
 $s->setExport();
 
-$s->setMethods([$method,$method2]);
+$methods = [$method,$method2];
+$s->setMethods(...$methods);
 
 $file = new ScriptFile();
 $file->addContent($s);
@@ -74,7 +76,7 @@ echo $file;
 ```
 
 Results:
-```javascript
+```
 export const mutations = {
         
     INCREMENT_ACTIVE(state) {
@@ -92,16 +94,21 @@ Arrow Functions:
 $s = new ArrowFunction('');
 $s->setExport();
 $s->setDefault();
-$s->setProperties([
+
+$properties = [
     (new Property('[TASKS]'))->setType('[]'),
     (new Property('[TOTAL]'))->setType('[]'),
-    (new Property('[PAGINATION]'))->setType([
-        'page' => 1,
-        'limit' => 10,
-        'totalPages' => 0,
-        'totalItems' => 0
-    ])
-]);
+    (new Property('[PAGINATION]'))->setType(
+        [
+            'page' => 1,
+            'limit' => 10,
+            'totalPages' => 0,
+            'totalItems' => 0
+        ]
+    )
+];
+$s->setProperties(...$properties);
+
 $file = new ScriptFile();
 $file->addContent($s);
 
@@ -109,7 +116,7 @@ echo $file;
 ```
 
 Results:
-```javascript
+```
 export default () => ({
     [TASKS]: [],
     [TOTAL]: [],
