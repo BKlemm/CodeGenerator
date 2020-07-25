@@ -365,7 +365,6 @@ class Renderer
      * @param mixed $data
      *
      * @return string
-     * @throws \JsonException
      */
     public function encode($data): string
     {
