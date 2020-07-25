@@ -11,6 +11,8 @@
 namespace JTGenerator\Structure;
 
 
+use JTGenerator\Delegate\NameTrait;
+
 /**
  * Class Import
  *
@@ -18,21 +20,22 @@ namespace JTGenerator\Structure;
  */
 class Import
 {
+    use NameTrait;
+
     private array $imports;
 
     /**
      * @param array  $values
-     * @param string $from
      *
      * @return $this
      */
-    public function addImport($values, string $from): self
+    public function addImport($values): self
     {
-        if (isset($this->imports[$from])) {
-            throw new \InvalidArgumentException("Import $from used already");
+        if (isset($this->imports[$this->getName()])) {
+            throw new \InvalidArgumentException("Import {$this->getName()} used already");
         }
 
-        $this->imports[$from] = $values;
+        $this->imports[$this->getName()] = $values;
         return $this;
     }
 
@@ -42,6 +45,16 @@ class Import
     public function getImports(): array
     {
         return $this->imports;
+    }
+
+    /**
+     * @param Import ...$imports
+     */
+    public function setImports(Import ...$imports): void
+    {
+        foreach ($imports as $import) {
+            $this->imports[$import->getName()] = $import;
+        }
     }
 
 }

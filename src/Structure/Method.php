@@ -86,7 +86,7 @@ class Method implements CommentInterface
     }
 
     /**
-     * @param array<int, Parameter> $parameters
+     * @param Parameter ...$parameters
      */
     public function setParameters(Parameter ...$parameters): void
     {

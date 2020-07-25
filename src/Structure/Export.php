@@ -11,6 +11,8 @@
 namespace JTGenerator\Structure;
 
 
+use JTGenerator\Delegate\NameTrait;
+
 /**
  * Class Export
  *
@@ -18,21 +20,22 @@ namespace JTGenerator\Structure;
  */
 class Export
 {
+    use NameTrait;
+
     private array $exports;
 
     /**
      * @param array  $values
-     * @param string $from
      *
      * @return $this
      */
-    public function addExport(array $values, string $from): self
+    public function addExport(array $values): self
     {
-        if (isset($this->exports[$from])) {
-            throw new \InvalidArgumentException("Export $from used already");
+        if (isset($this->exports[$this->getName()])) {
+            throw new \InvalidArgumentException("Export {$this->getName()} used already");
         }
 
-        $this->exports[$from] = $values;
+        $this->exports[$this->getName()] = $values;
         asort($this->exports);
         return $this;
     }
@@ -43,5 +46,15 @@ class Export
     public function getExports(): array
     {
         return $this->exports;
+    }
+
+    /**
+     * @param Export ...$exports
+     */
+    public function setExports(Export ...$exports): void
+    {
+        foreach ($exports as $export) {
+            $this->exports[$export->getName()] = $exports;
+        }
     }
 }

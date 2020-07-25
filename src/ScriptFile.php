@@ -56,7 +56,7 @@ class ScriptFile implements CommentInterface
     public function addImport(array $imports, string $from): self
     {
         if (!isset($this->imports[$from])) {
-            $this->imports[$from] = (new Import())->addImport($imports, $from);
+            $this->imports[$from] = (new Import($from))->addImport($imports);
         }
         return $this;
     }
@@ -142,7 +142,7 @@ class ScriptFile implements CommentInterface
     public function addExport(array $export, string $from): self
     {
         if (!isset($this->exports[$from])) {
-            $this->exports[$from] = (new Export())->addExport($export, $from);
+            $this->exports[$from] = (new Export($from))->addExport($export);
         }
         return $this;
     }

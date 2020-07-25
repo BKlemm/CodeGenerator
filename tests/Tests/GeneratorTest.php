@@ -46,7 +46,6 @@ class GeneratorTest extends TestCase
         $class->setExport();
         $class->addProperty('name', 'ben');
 
-
         $method = new Method('created');
         $method->setReturnType(Primitive::VOID);
         $method->setAccess(AccessType::PUBLIC);
@@ -63,16 +62,17 @@ class GeneratorTest extends TestCase
         $param->setType(Primitive::STRING);
         $method->setParameter($param);
 
-        $class->setMethods([$method,$method2]);
+        $methods = [$method,$method2];
+        $class->setMethods(...$methods);
 
         $file->setClass($class);
 
-        $this->assertStringContainsString(ComparableTemplates::tsClass(),$this->tabsToSpaces((string) $file));
+        self::assertStringContainsString(ComparableTemplates::tsClass(),$this->tabsToSpaces((string) $file));
     }
 
     public function testScript()
     {
-        $file = new ScriptFile();
+        $file  = new ScriptFile();
         $state = new Constant('state');
         $state->setExport();
 
@@ -87,49 +87,51 @@ class GeneratorTest extends TestCase
         $s = new Constant('mutations');
         $s->setExport();
 
-        $s->setMethods([$method,$method2]);
+        $methods = [$method,$method2];
+        $s->setMethods(...$methods);
 
         $file->addContent($state);
         $file->addContent($s);
 
-        $this->assertStringContainsString(ComparableTemplates::script(),$this->tabsToSpaces((string) $file));
+        self::assertStringContainsString(ComparableTemplates::script(),$this->tabsToSpaces((string) $file));
     }
 
     public function testConstant()
     {
-        $file = new ScriptFile();
+        $file  = new ScriptFile();
         $state = new Constant('TASK');
         $state->setValue('data');
         $state->setExport();
 
+        $properties = [
+            (new Property('[TASKS]'))->setType('[]'),
+            (new Property('[TOTAL]'))->setType('[]'),
+            (new Property('[PAGINATION]'))->setType(
+                [
+                    'page' => 1,
+                    'limit' => 10,
+                    'totalPages' => 0,
+                    'totalItems' => 0
+                ]
+            )
+        ];
+
         $s = new ArrowFunction('');
         $s->setExport();
         $s->setDefault();
-        $s->setProperties([
-            (new Property('[TASKS]'))->setType('[]'),
-            (new Property('[TOTAL]'))->setType('[]'),
-            (new Property('[PAGINATION]'))->setType([
-                'page' => 1,
-                'limit' => 10,
-                'totalPages' => 0,
-                'totalItems' => 0
-            ])
-        ]);
+        $s->setProperties(...$properties);
 
         $file->addContent($state);
         $file->addContent($s);
 
-        $this->assertStringContainsString(ComparableTemplates::constant(),$this->tabsToSpaces((string) $file));
+        self::assertStringContainsString(ComparableTemplates::constant(),$this->tabsToSpaces((string) $file));
     }
 
     public function testObject()
     {
         $file = new ScriptFile();
 
-        $mutation = new JSObject;
-        $mutation->setDefault();
-        $mutation->setExport();
-        $mutation->setMethods([
+        $methods = [
             (new Method("[SET_DATA]"))
                 ->addParameter('state')
                 ->addParameter('data')
@@ -142,7 +144,12 @@ class GeneratorTest extends TestCase
                 ->addParameter('state')
                 ->addParameter('data')
                 ->setBody('state.total[state.pagination.page] = data')
-        ]);
+        ];
+
+        $mutation = new JSObject;
+        $mutation->setDefault();
+        $mutation->setExport();
+        $mutation->setMethods(...$methods);
 
         $file->addContent($mutation);
 
@@ -150,7 +157,7 @@ class GeneratorTest extends TestCase
         $file->addExport(['*'],'./mutations');
         $file->addExport(['*'],'./actions');
 
-        $this->assertStringContainsString(ComparableTemplates::objects(),$this->tabsToSpaces((string)$file));
+        self::assertStringContainsString(ComparableTemplates::objects(),$this->tabsToSpaces((string) $file));
     }
 
     /**

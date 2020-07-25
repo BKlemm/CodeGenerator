@@ -21,11 +21,11 @@ use JTGenerator\Structure\Property;
 interface ElementInterface
 {
     /**
-     * @param array<Method> $methods
+     * @param Method ...$methods
      *
      * @return $this
      */
-    public function setMethods(array $methods): self;
+    public function setMethods(Method ...$methods): self;
 
     /**
      * @param string $name
@@ -33,11 +33,11 @@ interface ElementInterface
     public function addMethod(string $name): void;
 
     /**
-     * @param array<Property> $properties
+     * @param Property ...$properties
      *
      * @return $this
      */
-    public function setProperties(array $properties): self;
+    public function setProperties(Property ...$properties): self;
 
     /**
      * @param string      $name

@@ -63,6 +63,10 @@ class Property implements CommentInterface
     }
 
     /**
+     * Set definite assignment assertion for a feature that allows a ! to be placed after
+     * instance property and variable declarations to relay to TypeScript that a variable
+     * is indeed assigned for all intents and purposes, even if TypeScript’s analyses cannot detect so.
+     *
      * @param bool $state
      *
      * @return $this

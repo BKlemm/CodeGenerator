@@ -11,7 +11,6 @@
 namespace JTGenerator\Delegate;
 
 
-use JTGenerator\Exception\InvalidArgumentException;
 use JTGenerator\Structure\Method;
 use JTGenerator\Structure\Property;
 
@@ -29,17 +28,13 @@ trait ElementTrait
     private array $methods = [];
 
     /**
-     * @param array<Method> $methods
+     * @param Method ...$methods
      *
      * @return $this
      */
-    public function setMethods(array $methods): self
+    public function setMethods(Method ...$methods): self
     {
         foreach ($methods as $method) {
-            if (!$method instanceof Method) {
-                throw new InvalidArgumentException('Must be type Method[]');
-            }
-
             $this->methods[$method->getName()] = $method;
         }
 
@@ -57,16 +52,13 @@ trait ElementTrait
     }
 
     /**
-     * @param array<Property> $properties
+     * @param Property ...$properties
      *
      * @return $this
      */
-    public function setProperties(array $properties): self
+    public function setProperties(Property ...$properties): self
     {
         foreach ($properties as $property) {
-            if (!$property instanceof Property) {
-                throw new InvalidArgumentException('Must be type Property[]');
-            }
             $this->properties[$property->getName()] = $property;
         }
 

@@ -29,7 +29,7 @@ trait ClassTrait
     private array $implements = [];
 
     /**
-     * @param array<int, string> $extends
+     * @param string ...$extends
      *
      * @return $this
      */
