@@ -7,7 +7,6 @@ Typescript and ES6 Javascript class / file generator
 [![codecov](https://codecov.io/gh/BKlemm/JTGenerator/branch/master/graph/badge.svg)](https://codecov.io/gh/BKlemm/JTGenerator)
 [![phpstan](https://img.shields.io/badge/PHPStan-level%207-brightgreen.svg?style=flat)](https://img.shields.io/badge/PHPStan-level%203-brightgreen.svg?style=flat)
 
-# Example
 
 # Installation
 
