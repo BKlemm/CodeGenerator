@@ -22,39 +22,25 @@ trait ClassTrait
     /** @var Import[] */
     private array $imports = [];
 
-    /** @var string[] */
-    private array $extends = [];
+    private string $extend;
 
     /** @var string[] */
     private array $implements = [];
-
-    /**
-     * @param string ...$extends
-     *
-     * @return $this
-     */
-    public function setExtends(string ...$extends): self
-    {
-        $this->extends = $extends;
-        return $this;
-    }
 
     /**
      * @param string $name
      */
     public function addExtend(string $name): void
     {
-        if (!isset($this->extends[$name])) {
-            $this->extends[] = $name;
-        }
+        $this->extend = $name;
     }
 
     /**
      * @return bool
      */
-    public function hasExtends(): bool
+    public function hasExtend(): bool
     {
-        return (bool) count($this->extends);
+        return $this->extend !== null;
     }
 
     /**
@@ -66,11 +52,11 @@ trait ClassTrait
     }
 
     /**
-     * @return array
+     * @return string
      */
-    public function getExtends(): array
+    public function getExtend(): string
     {
-        return $this->extends;
+        return $this->extend;
     }
 
     /**

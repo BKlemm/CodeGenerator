@@ -84,7 +84,7 @@ class Renderer
 
         return ($class->hasComment() ? $class->formatComment() : '')
             . $class->getName() . ' '
-            . ($class->hasExtends() ? 'extends ' . implode(', ',$class->getExtends()) : '')
+            . ($class->hasExtend() ? 'extends ' . $class->getExtend() : '')
             . ($class->hasImplements() ? 'implements ' . implode(', ', $class->getImplements()) : '')
             . ' {' . PHP_EOL
             . ($members ? $this->indent(implode(PHP_EOL, $members)) : '')
@@ -114,7 +114,7 @@ class Renderer
             . ($class->isDefault() ? 'default ' : '')
             . ($class->isAbstract() ? 'abstract ' : '')
             . 'class ' . $class->getName() . ' '
-            . ($class->hasExtends() ? 'extends ' . implode(', ',$class->getExtends()) : '')
+            . ($class->hasExtend() ? 'extends ' . $class->getExtend() : '')
             . ($class->hasImplements() ? 'implements ' . implode(', ', $class->getImplements()) : '')
             . ' {' . PHP_EOL
             . ($members ? $this->indent(implode(PHP_EOL, $members)) : '')
