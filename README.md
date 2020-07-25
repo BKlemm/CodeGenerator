@@ -90,7 +90,7 @@ export const mutations = {
 Arrow Functions:
 
 ```php
-$s = new ArrowFunction('');
+$s = new ArrowFunction();
 $s->setExport();
 $s->setDefault();
 
