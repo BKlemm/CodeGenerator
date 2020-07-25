@@ -20,23 +20,23 @@ use JTGenerator\Exception\InvalidStateException;
  */
 trait NameTrait
 {
-    private string $name;
+    private ?string $name = null;
 
     /**
      * NameTrait constructor.
      *
-     * @param string $name
+     * @param string|null $name
      */
-    public function __construct(string $name)
+    public function __construct(?string $name = null)
     {
         $this->name = $name;
     }
 
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
