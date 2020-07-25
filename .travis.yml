@@ -8,7 +8,6 @@ before_install:
   - composer self-update
 
 install:
-  - rm composer.lock
   - travis_retry composer update --prefer-dist --no-suggest --no-progress --no-interaction
 
 after_success: "sbt coveralls"
