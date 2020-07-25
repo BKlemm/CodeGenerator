@@ -7,20 +7,15 @@
     "authors":[
         {
             "name":"Björn Klemm",
-            "email":"webinnovativ@gmail.com"
+            "email":"appsdock.enterprise@gmail.com"
         }
     ],
 
     "minimum-stability": "dev",
 
-    "scripts": {
-        "test": "vendor/bin/phpunit",
-        "phpstan": "vendor/bin/phpstan analyse",
-        "phpcs": "vendor/bin/phpcs"
-    },
-
     "require": {
-        "php": "^7.4"
+        "php": "^7.4",
+        "ext-json": "*"
     },
 
     "require-dev": {
@@ -35,5 +30,17 @@
             "JTGenerator\\": "src/",
             "JTGenerator\\Tests\\": "tests/Tests/"
         }
+    },
+
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "phpstan": "vendor/bin/phpstan analyse",
+        "phpcs": "vendor/bin/phpcs"
+    },
+
+    "scripts-descriptions": {
+        "test": "Run all unit tests",
+        "phpstan": "Static code analysis, find properly bugs",
+        "phpcs": "Coding Standards"
     }
 }
