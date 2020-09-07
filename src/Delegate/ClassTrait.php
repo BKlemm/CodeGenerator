@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  * This file is part of JTGenerator
  *
  * (c) Bjoern Klemm <appsdock.enterprise@gmail.com>
@@ -26,6 +26,24 @@ trait ClassTrait
 
     /** @var string[] */
     private array $implements = [];
+
+    private bool $abstract = false;
+
+    /**
+     * @return bool
+     */
+    public function isAbstract(): bool
+    {
+        return $this->abstract;
+    }
+
+    /**
+     * @param bool $abstract
+     */
+    public function setAbstract(bool $abstract = true): void
+    {
+        $this->abstract = $abstract;
+    }
 
     /**
      * @param string $name
