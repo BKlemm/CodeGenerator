@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  * This file is part of JTGenerator
  *
  * (c) Bjoern Klemm <appsdock.enterprise@gmail.com>
@@ -10,8 +10,6 @@
 
 namespace JTGenerator\Delegate;
 
-
-use JTGenerator\Exception\InvalidStateException;
 
 /**
  * Trait NameTrait
@@ -39,16 +37,5 @@ trait NameTrait
     public function getName(): ?string
     {
         return $this->name;
-    }
-
-    /**
-     *
-     */
-    protected function validateName(): void
-    {
-        $pattern = "/[A-Za-z_][\w]*/";
-        if (!preg_match($pattern, $this->name)) {
-            throw new InvalidStateException('Is not a valid name for classes or members');
-        }
     }
 }

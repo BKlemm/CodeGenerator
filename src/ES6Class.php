@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  * This file is part of JTGenerator
  *
  * (c) Bjoern Klemm <appsdock.enterprise@gmail.com>
@@ -16,8 +16,10 @@ use JTGenerator\Contracts\CommentInterface;
 use JTGenerator\Contracts\ElementInterface;
 use JTGenerator\Delegate\ClassTrait;
 use JTGenerator\Delegate\CommentTrait;
+use JTGenerator\Delegate\DecoratorTrait;
 use JTGenerator\Delegate\NameTrait;
 use JTGenerator\Delegate\ElementTrait;
+use JTGenerator\Exception\RenderAssertion;
 
 /**
  * Class ES6Class
@@ -30,11 +32,22 @@ class ES6Class implements ClassInterface, ElementInterface, CommentInterface
     use NameTrait;
     use ElementTrait;
     use ClassTrait;
+    use DecoratorTrait;
 
     private string $type = 'class';
 
     public function validate(): void
     {
-        $this->validateName();
+        RenderAssertion::assertName($this->getName());
+        RenderAssertion::assertRules($this);
+    }
+
+    /**
+     * @return string
+     * @throws \Exception
+     */
+    public function __toString(): string
+    {
+        return (new Renderer())->renderESClass($this);
     }
 }

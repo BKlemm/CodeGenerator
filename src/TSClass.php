@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  * This file is part of JTGenerator
  *
  * (c) Bjoern Klemm <appsdock.enterprise@gmail.com>
@@ -16,10 +16,11 @@ use JTGenerator\Contracts\CommentInterface;
 use JTGenerator\Contracts\ElementInterface;
 use JTGenerator\Delegate\ClassTrait;
 use JTGenerator\Delegate\CommentTrait;
+use JTGenerator\Delegate\DecoratorTrait;
 use JTGenerator\Delegate\NameTrait;
 use JTGenerator\Delegate\ObjectTrait;
 use JTGenerator\Delegate\ElementTrait;
-use JTGenerator\Structure\Decorator;
+use JTGenerator\Exception\RenderAssertion;
 
 /**
  * Class TypescriptClass
@@ -33,6 +34,7 @@ class TSClass implements ClassInterface, ElementInterface, CommentInterface
     use ElementTrait;
     use ClassTrait;
     use ObjectTrait;
+    use DecoratorTrait;
 
     public const
         CLASS_TYPE     = 'class',
@@ -40,40 +42,13 @@ class TSClass implements ClassInterface, ElementInterface, CommentInterface
 
     private string $type = self::CLASS_TYPE;
 
-    private bool $abstract = false;
-
-    /** @var Decorator[] */
-    private array $decorators = [];
-
-
-    /**
-     * @param string $name
-     * @param mixed  $values
-     *
-     * @return TSClass
-     */
-    public function addDecorator(string $name, $values = null): self
-    {
-        if (!isset($this->decorators[$name])) {
-            $this->decorators[$name] = (new Decorator($name))->setValues($values);
-        }
-        return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isAbstract(): bool
-    {
-        return $this->abstract;
-    }
-
     /**
      * @throws \Exception
      */
     public function validate(): void
     {
-        $this->validateName();
+        RenderAssertion::assertName($this->getName());
+        RenderAssertion::assertRules($this);
     }
 
     /**
@@ -83,34 +58,5 @@ class TSClass implements ClassInterface, ElementInterface, CommentInterface
     public function __toString(): string
     {
         return (new Renderer())->renderClass($this);
-    }
-
-    /**
-     * @return bool
-     */
-    public function hasDecorator(): bool
-    {
-        return (bool) count($this->decorators);
-    }
-
-    /**
-     * @return array
-     */
-    public function getDecorators(): array
-    {
-        return $this->decorators;
-    }
-
-    /**
-     * @param string $name
-     *
-     * @return Decorator|null
-     */
-    public function getDecorator(string $name): ?Decorator
-    {
-        if (\array_key_exists($name, $this->decorators)) {
-            return $this->decorators[$name];
-        }
-        return null;
     }
 }
