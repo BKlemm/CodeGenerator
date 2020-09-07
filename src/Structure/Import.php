@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  * This file is part of JTGenerator
  *
  * (c) Bjoern Klemm <appsdock.enterprise@gmail.com>
@@ -29,7 +29,7 @@ class Import
      *
      * @return $this
      */
-    public function addImport($values): self
+    public function addImport(array $values): self
     {
         if (isset($this->imports[$this->getName()])) {
             throw new \InvalidArgumentException("Import {$this->getName()} used already");

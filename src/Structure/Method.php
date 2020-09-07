@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  * This file is part of JTGenerator
  *
  * (c) Bjoern Klemm <appsdock.enterprise@gmail.com>
@@ -14,6 +14,7 @@ use JTGenerator\Contracts\CommentInterface;
 use JTGenerator\Delegate\CommentTrait;
 use JTGenerator\Delegate\MemberTrait;
 use JTGenerator\Delegate\NameTrait;
+use JTGenerator\Exception\RenderAssertion;
 
 /**
  * This file is part of JTGenerator
@@ -121,7 +122,7 @@ class Method implements CommentInterface
 
     public function validate(): void
     {
-        $this->validateName();
+        RenderAssertion::assertName($this->getName());
     }
 
     /**
