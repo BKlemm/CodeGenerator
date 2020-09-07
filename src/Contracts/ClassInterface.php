@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  * This file is part of JTGenerator
  *
  * (c) Bjoern Klemm <appsdock.enterprise@gmail.com>
@@ -19,10 +19,23 @@ namespace JTGenerator\Contracts;
  * file that was distributed with this source code.
  */
 
+/**
+ * Interface ClassInterface
+ *
+ * @package JTGenerator\Contracts
+ */
 interface ClassInterface
 {
     /**
      *
      */
     public function validate(): void;
+
+    public function isAbstract(): bool;
+
+    public function hasDecorator(): bool;
+
+    public function hasExtend(): bool;
+
+    public function getExtend(): string;
 }
