@@ -22,7 +22,7 @@ trait ClassTrait
     /** @var Import[] */
     private array $imports = [];
 
-    private string $extend;
+    private ?string $extend = null;
 
     /** @var string[] */
     private array $implements = [];
