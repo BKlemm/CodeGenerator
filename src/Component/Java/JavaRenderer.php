@@ -8,19 +8,18 @@
  * file that was distributed with this source code.
  */
 
-namespace CodeGenerator;
+namespace CodeGenerator\Component\Java;
 
 
-use CodeGenerator\Contracts\ElementInterface;
-use CodeGenerator\Exception\InvalidArgumentException;
-use CodeGenerator\Structure\ArrowFunction;
-use CodeGenerator\Structure\Constant;
-use CodeGenerator\Structure\Decorator;
-use CodeGenerator\Structure\Export;
-use CodeGenerator\Structure\Import;
-use CodeGenerator\Structure\JSObject;
-use CodeGenerator\Structure\Method;
-use CodeGenerator\Structure\Property;
+use CodeGenerator\Component\Java\Types\Primitive;
+use CodeGenerator\Contracts\Java\ElementInterface;
+use CodeGenerator\Component\Java\Exception\InvalidArgumentException;
+use CodeGenerator\Component\Java\Structure\ArrowFunction;
+use CodeGenerator\Component\Java\Structure\Constant;
+use CodeGenerator\Component\Java\Structure\Annotation;
+use CodeGenerator\Component\Java\Structure\Import;
+use CodeGenerator\Component\Java\Structure\Method;
+use CodeGenerator\Component\Java\Structure\Property;
 
 /**
  * Class Printer
@@ -57,46 +56,31 @@ class JavaRenderer
     {
         $class->validate();
 
-        $members = $this->renderMembers($class);
-
-        $decorators = [];
-        foreach ($class->getDecorators() as $decorator) {
-            $decorators[] = $this->renderDecorator($decorator);
+        $imports = [];
+        foreach ($class->getImports() as $import) {
+            $imports[] = $this->renderImports($import);
         }
 
-        return ($class->hasComment() ? $class->formatComment() : '')
-            . ($class->hasDecorator() ? implode(PHP_EOL,$decorators) .PHP_EOL : '')
+        $members = $this->renderMembers($class);
+
+        $annotations = [];
+        foreach ($class->getAnnotations() as $decorator) {
+            $annotations[] = $this->renderAnnotation($decorator);
+        }
+
+        return ($class->hasPackage() ? 'package ' . $class->getPackage() .';'. PHP_EOL : '')
+            . ($class->hasImports() ? implode(PHP_EOL, $imports) . PHP_EOL : '')
+            .($class->hasComment() ? $class->formatComment() : '')
+            . ($class->hasAnnotations() ? implode(PHP_EOL,$annotations) .PHP_EOL : '')
             . ($class->isAbstract() ? 'abstract ' : '')
+            . $class->getAccess()
+            . ($class->isFinal() ? ' final ' : '')
             . 'class ' . $class->getName() . ' '
             . ($class->hasExtend() ? 'extends ' . $class->getExtend() : '')
             . ($class->hasImplements() ? 'implements ' . implode(', ', $class->getImplements()) : '')
             . ' {' . PHP_EOL
             . ($members ? $this->indent(implode(PHP_EOL, $members)) : '')
             . PHP_EOL.'}';
-    }
-
-    /**
-     * @param ScriptFile $file
-     *
-     * @return string
-     */
-    public function renderFile(ScriptFile $file): string
-    {
-        $imports = [];
-        foreach ($file->getImports() as $import) {
-            $imports[] = $this->renderImports($import);
-        }
-
-        $constants = [];
-        foreach ($file->getConstants() as $constant) {
-            $constants[] = $this->renderConstant($constant);
-        }
-
-        return ($file->hasComment() ? $file->formatComment() .PHP_EOL : '')
-            . ($imports ? implode(PHP_EOL, $imports) . str_repeat(PHP_EOL,2) : '')
-            . ($constants ? implode(PHP_EOL, $constants) . str_repeat(PHP_EOL,2) : '')
-            . ($file->hasClass() ? (string) $file->getClass() : '')
-            . (!$file->hasClass() && $file->hasContent() ? implode(PHP_EOL,$file->getContent()) : '');
     }
 
     /**
@@ -107,12 +91,9 @@ class JavaRenderer
     public function renderProperties(Property $property): string
     {
         return ($property->hasComment() ? $property->formatComment() . PHP_EOL : '')
-            . ($property->hasDecorator() ? $this->renderDecorator($property->getDecorator()) . PHP_EOL : '')
-            . ($property->hasAccess() ? $property->getAccess() . ' ' : '')
-            . $property->getName()
-            . ($property->isDefiniteAssignment() ? '!' : '')
-            . ($property->typeIsString() ? ': ' . ($property->isNullable() ? '?' : '') . $property->getType() : '')
-            . ($property->typeIsArray() ? ': ' . $this->encode($property->getType()) : '')
+            . ($property->hasAnnotations() ? $this->renderAnnotation($property->getAnnotation()) . PHP_EOL : '')
+            . ($property->hasAccess() ? $property->getAccess() : '')
+            . $property->getType() . ' ' . $property->getName()
             . ($property->hasValue() ? $this->renderValue($property->getValue()) : '');
     }
 
@@ -129,10 +110,10 @@ class JavaRenderer
             . ($method->isAbstract() ? 'abstract ' : '')
             . ($method->hasAccess() ? $method->getAccess().' ' : '')
             . ($method->isStatic() ? 'static ' : '')
-            . ($method->isAsync() ? 'async ' : '')
+            . ($method->isFinal() ? ' final ' : '')
+            . $method->getReturnType() . ' '
             . $method->getName()
             . '('.$this->renderParameter($method).')'
-            . $this->renderReturnType($method)
             . ($method->isAbstract() || $method->getBody() === null
                 ? ";\n"
                 : ' {' . ($method->hasBody() ? PHP_EOL : ' ')
@@ -150,36 +131,10 @@ class JavaRenderer
     {
         $params = [];
         foreach ($method->getParameters() as $parameter) {
-            $_param   = $parameter->typeIsString() ? $parameter->getType() : null;
-            $params[] = $parameter->getName() . ($parameter->hasType() ? $this->renderType($_param,$parameter->isNullable()) : '');
+            $params[] = $parameter->getType() . ' ' . $parameter->getName() . ($parameter->isNullable() ? ' = '.Primitive::NULL : '');
         }
 
         return implode(', ',$params);
-    }
-
-    /**
-     * @param string|null $type
-     * @param bool        $nullable
-     *
-     * @return string
-     */
-    public function renderType(?string $type, bool $nullable = false): string
-    {
-        return $type
-            ? ($nullable ? '?: ' . $type : $type)
-            : '';
-    }
-
-    /**
-     * @param Method $method
-     *
-     * @return string
-     */
-    public function renderReturnType(Method $method): string
-    {
-        return ($str = $this->renderType($method->getReturnType(), $method->isNullable()))
-            ? ': ' . $str
-            : '';
     }
 
     /**
@@ -287,15 +242,15 @@ class JavaRenderer
     }
 
     /**
-     * @param Decorator $decorator
+     * @param Annotation $annotation
      *
      * @return string
      */
-    public function renderDecorator(Decorator $decorator): string
+    public function renderAnnotation(Annotation $annotation): string
     {
-        return '@'.$decorator->getName()
-            . ($decorator->hasValues()
-                ? '(' .$this->encode($decorator->getValues()) .')'
+        return '@'.$annotation->getName()
+            . ($annotation->hasValue()
+                ? '(' .$this->encode($annotation->getValue()) .')'
                 : '') ;
     }
 

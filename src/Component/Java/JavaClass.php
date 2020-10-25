@@ -11,16 +11,15 @@
 namespace CodeGenerator\Component\Java;
 
 
-use CodeGenerator\Contracts\ClassInterface;
-use CodeGenerator\Contracts\CommentInterface;
-use CodeGenerator\Contracts\ElementInterface;
-use CodeGenerator\Delegate\ClassTrait;
-use CodeGenerator\Delegate\CommentTrait;
-use CodeGenerator\Delegate\DecoratorTrait;
-use CodeGenerator\Delegate\NameTrait;
-use CodeGenerator\Delegate\ObjectTrait;
-use CodeGenerator\Delegate\ElementTrait;
-use CodeGenerator\Exception\RenderAssertion;
+use CodeGenerator\Component\Java\Exception\RenderAssertion;
+use CodeGenerator\Contracts\Common\CommentTrait;
+use CodeGenerator\Contracts\Java\AnnotationTrait;
+use CodeGenerator\Contracts\Java\ClassInterface;
+use CodeGenerator\Contracts\Common\CommentInterface;
+use CodeGenerator\Contracts\Common\NameTrait;
+use CodeGenerator\Contracts\Java\ClassTrait;
+use CodeGenerator\Contracts\Java\ElementInterface;
+use CodeGenerator\Contracts\Java\ElementTrait;
 
 /**
  * Class TypescriptClass
@@ -31,10 +30,9 @@ class JavaClass implements ClassInterface, ElementInterface, CommentInterface
 {
     use CommentTrait;
     use NameTrait;
-    use ElementTrait;
     use ClassTrait;
-    use ObjectTrait;
-    use DecoratorTrait;
+    use AnnotationTrait;
+    use ElementTrait;
 
     public const
         CLASS_TYPE     = 'class',
@@ -49,7 +47,6 @@ class JavaClass implements ClassInterface, ElementInterface, CommentInterface
     public function validate(): void
     {
         RenderAssertion::assertName($this->getName());
-        RenderAssertion::assertRules($this);
     }
 
     /**
