@@ -1,6 +1,6 @@
 <?php
 /*
- * This file is part of JTGenerator
+ * This file is part of CodeGenerator
  *
  * (c) Bjoern Klemm <appsdock.enterprise@gmail.com>
  *
@@ -8,10 +8,10 @@
  * file that was distributed with this source code.
  */
 
-namespace JTGenerator\Contracts;
+namespace CodeGenerator\Contracts\JTScript;
 
 /**
- * This file is part of JTGenerator
+ * This file is part of CodeGenerator
  *
  * (c) Bjoern Klemm <appsdock.enterprise@gmail.com>
  *
@@ -22,7 +22,7 @@ namespace JTGenerator\Contracts;
 /**
  * Interface ClassInterface
  *
- * @package JTGenerator\Contracts
+ * @package CodeGenerator\Contracts
  */
 interface ClassInterface
 {
