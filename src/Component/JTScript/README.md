@@ -1,4 +1,4 @@
-# CodeGenerator
+# Typescript & ES6 Javascript Generator
 Typescript and ES6-Class / file generator component.
 
 Feel free for implementing the same for ex. Ruby or Python
