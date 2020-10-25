@@ -13,6 +13,7 @@ namespace CodeGenerator\Component\Java\Structure;
 
 use CodeGenerator\Contracts\Common\CommentInterface;
 use CodeGenerator\Contracts\Common\CommentTrait;
+use CodeGenerator\Contracts\Java\AnnotationTrait;
 use CodeGenerator\Contracts\Java\MemberTrait;
 use CodeGenerator\Contracts\Common\NameTrait;
 use CodeGenerator\Contracts\Common\ValueTrait;
@@ -28,35 +29,5 @@ class Property implements CommentInterface
     use CommentTrait;
     use NameTrait;
     use ValueTrait;
-
-    private ?Annotation $annotation = null;
-
-    /**
-     * @param string $name
-     * @param mixed  $values
-     *
-     * @return $this
-     */
-    public function setAnnotation(string $name, $values = null): self
-    {
-        $this->annotation = (new Annotation($name))->setValue($values);
-
-        return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function hasAnnotations(): bool
-    {
-        return $this->annotation !== null;
-    }
-
-    /**
-     * @return Annotation|null
-     */
-    public function getAnnotation(): ?Annotation
-    {
-        return $this->annotation;
-    }
+    use AnnotationTrait;
 }

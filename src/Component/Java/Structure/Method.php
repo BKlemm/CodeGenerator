@@ -12,6 +12,7 @@ namespace CodeGenerator\Component\Java\Structure;
 
 use CodeGenerator\Contracts\Common\CommentInterface;
 use CodeGenerator\Contracts\Common\CommentTrait;
+use CodeGenerator\Contracts\Java\AnnotationTrait;
 use CodeGenerator\Contracts\Java\MemberTrait;
 use CodeGenerator\Contracts\Common\NameTrait;
 use CodeGenerator\Component\Java\Exception\RenderAssertion;
@@ -36,6 +37,7 @@ class Method implements CommentInterface
     use CommentTrait;
     use NameTrait;
     use MemberTrait;
+    use AnnotationTrait;
 
     private string $body;
 
