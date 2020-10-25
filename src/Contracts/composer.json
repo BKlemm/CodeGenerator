@@ -1,0 +1,36 @@
+{
+    "name":"codegenerator/contracts",
+    "description":"\uD83D\uDE0E A set of abstractions \uD83D\uDE0E",
+    "homepage":"https://bumogen.com",
+    "type":"library",
+    "license": "MIT",
+    "authors":[
+        {
+            "name":"Björn Klemm",
+            "email":"appsdock.enterprise@gmail.com"
+        }
+    ],
+
+    "minimum-stability": "dev",
+
+    "require": {
+        "php": "^7.4",
+        "ext-json": "*"
+    },
+
+    "require-dev": {
+        "phpunit/phpunit": "8.3.5",
+        "phpstan/phpstan": "0.12.*",
+        "squizlabs/php_codesniffer": "3.*",
+        "roave/security-advisories": "dev-master"
+    },
+
+    "autoload": {
+        "psr-4": {
+            "CodeGenerator\\Contracts\\": ""
+        },
+        "exclude-from-classmap": [
+            "**/Tests/"
+        ]
+    }
+}
