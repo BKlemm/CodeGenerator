@@ -109,7 +109,7 @@ class Renderer
         }
 
         return ($class->hasComment() ? $class->formatComment() : '')
-            . ($class->hasDecorator() ? implode(PHP_EOL,$decorators) .PHP_EOL : '')
+            . ($class->hasDecorators() ? implode(PHP_EOL,$decorators) .PHP_EOL : '')
             . ($class->isExport() ? 'export ' : '')
             . ($class->isDefault() ? 'default ' : '')
             . ($class->isAbstract() ? 'abstract ' : '')

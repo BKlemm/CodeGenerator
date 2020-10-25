@@ -11,7 +11,7 @@
 namespace CodeGenerator\Component\JTScript\Structure;
 
 
-use CodeGenerator\Contracts\JTScript\NameTrait;
+use CodeGenerator\Contracts\Common\NameTrait;
 
 /**
  * Class Import

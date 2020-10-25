@@ -12,8 +12,8 @@ namespace CodeGenerator\Component\JTScript;
 
 
 use CodeGenerator\Contracts\JTScript\ClassInterface;
-use CodeGenerator\Contracts\JTScript\CommentInterface;
-use CodeGenerator\Contracts\JTScript\CommentTrait;
+use CodeGenerator\Contracts\Common\CommentInterface;
+use CodeGenerator\Contracts\Common\CommentTrait;
 use CodeGenerator\Component\JTScript\Structure\Constant;
 use CodeGenerator\Component\JTScript\Structure\Export;
 use CodeGenerator\Component\JTScript\Structure\Import;

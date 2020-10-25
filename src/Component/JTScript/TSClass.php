@@ -12,12 +12,12 @@ namespace CodeGenerator\Component\JTScript;
 
 
 use CodeGenerator\Contracts\JTScript\ClassInterface;
-use CodeGenerator\Contracts\JTScript\CommentInterface;
+use CodeGenerator\Contracts\Common\CommentInterface;
+use CodeGenerator\Contracts\JTScript\DecoratorTrait;
 use CodeGenerator\Contracts\JTScript\ElementInterface;
 use CodeGenerator\Contracts\JTScript\ClassTrait;
-use CodeGenerator\Contracts\JTScript\CommentTrait;
-use CodeGenerator\Contracts\JTScript\DecoratorTrait;
-use CodeGenerator\Contracts\JTScript\NameTrait;
+use CodeGenerator\Contracts\Common\CommentTrait;
+use CodeGenerator\Contracts\Common\NameTrait;
 use CodeGenerator\Contracts\JTScript\ObjectTrait;
 use CodeGenerator\Contracts\JTScript\ElementTrait;
 use CodeGenerator\Component\JTScript\Exception\RenderAssertion;

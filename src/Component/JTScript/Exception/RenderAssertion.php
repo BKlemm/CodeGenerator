@@ -36,7 +36,7 @@ class RenderAssertion
      */
     public static function assertRules(ClassInterface $clazz): void
     {
-        if ($clazz->hasDecorator() && $clazz->isAbstract()) {
+        if ($clazz->hasDecorators() && $clazz->isAbstract()) {
             throw new InvalidStateException('Class could not be abstract and has a class decorator');
         }
     }

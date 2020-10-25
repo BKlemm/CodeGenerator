@@ -11,13 +11,13 @@
 namespace CodeGenerator\Component\JTScript\Structure;
 
 
-use CodeGenerator\Contracts\JTScript\CommentInterface;
+use CodeGenerator\Contracts\Common\CommentInterface;
 use CodeGenerator\Contracts\JTScript\ElementInterface;
-use CodeGenerator\Contracts\JTScript\CommentTrait;
+use CodeGenerator\Contracts\Common\CommentTrait;
 use CodeGenerator\Contracts\JTScript\MemberTrait;
-use CodeGenerator\Contracts\JTScript\NameTrait;
+use CodeGenerator\Contracts\Common\NameTrait;
 use CodeGenerator\Contracts\JTScript\ElementTrait;
-use CodeGenerator\Contracts\JTScript\ValueTrait;
+use CodeGenerator\Contracts\Common\ValueTrait;
 use CodeGenerator\Component\JTScript\Renderer;
 
 /**

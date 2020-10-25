@@ -120,20 +120,4 @@ class ComparableTemplates
         TS;
 
     }
-
-    public static function javaClass(): string
-    {
-        return <<<Java
-        package com.jentix.services.parking.reservation.core.command;
-
-        import lombok.Value;
-        
-        @Value
-        public class ConfirmReservation {
-        
-            String reservationId;
-        }
-        Java;
-
-    }
 }

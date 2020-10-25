@@ -12,8 +12,8 @@ namespace CodeGenerator\Component\JTScript\Structure;
 
 
 use CodeGenerator\Contracts\JTScript\MemberTrait;
-use CodeGenerator\Contracts\JTScript\NameTrait;
-use CodeGenerator\Contracts\JTScript\ValueTrait;
+use CodeGenerator\Contracts\Common\NameTrait;
+use CodeGenerator\Contracts\Common\ValueTrait;
 
 /**
  * Class Parameter

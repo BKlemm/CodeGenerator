@@ -12,7 +12,7 @@ namespace CodeGenerator\Component\JTScript\Structure;
 
 
 use CodeGenerator\Contracts\JTScript\ElementInterface;
-use CodeGenerator\Contracts\JTScript\NameTrait;
+use CodeGenerator\Contracts\Common\NameTrait;
 use CodeGenerator\Contracts\JTScript\ObjectTrait;
 use CodeGenerator\Contracts\JTScript\ElementTrait;
 use CodeGenerator\Component\JTScript\Renderer;
