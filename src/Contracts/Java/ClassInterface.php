@@ -35,9 +35,11 @@ interface ClassInterface
 
     public function isFinal(): bool;
 
-    public function hasAnnotation(): bool;
+    public function hasAnnotations(): bool;
 
     public function hasExtend(): bool;
 
     public function getExtend(): string;
+
+    public function getAccess(): string;
 }

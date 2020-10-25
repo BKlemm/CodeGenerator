@@ -33,7 +33,7 @@ interface ClassInterface
 
     public function isAbstract(): bool;
 
-    public function hasDecorator(): bool;
+    public function hasDecorators(): bool;
 
     public function hasExtend(): bool;
 

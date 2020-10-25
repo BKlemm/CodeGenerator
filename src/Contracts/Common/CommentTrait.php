@@ -8,8 +8,10 @@
  * file that was distributed with this source code.
  */
 
-namespace CodeGenerator\Contracts\JTScript;
+namespace CodeGenerator\Contracts\Common;
 
+
+use CodeGenerator\Contracts\Common\CommentInterface;
 
 /**
  * Trait CommentTrait

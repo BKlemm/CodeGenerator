@@ -40,7 +40,7 @@ trait DecoratorTrait
     /**
      * @return bool
      */
-    public function hasDecorator(): bool
+    public function hasDecorators(): bool
     {
         return (bool) count($this->decorators);
     }
