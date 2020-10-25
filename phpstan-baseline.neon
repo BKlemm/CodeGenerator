@@ -1,17 +1,17 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Cannot cast JTGenerator\\\\Contracts\\\\ClassInterface to string\\.$#"
+			message: "#^Cannot cast CodeGenerator\\\\Contracts\\\\JTScript\\\\ClassInterface to string\\.$#"
 			count: 1
-			path: src/Renderer.php
+			path: src/Component/JTScript/Renderer.php
 
 		-
 			message: "#^Binary operation \"\\.\" between string and array\\|string\\|null results in an error\\.$#"
 			count: 1
-			path: src/Renderer.php
+			path: src/Component/JTScript/Renderer.php
 
 		-
-			message: "#^Parameter \\#1 \\$type of method JTGenerator\\\\Renderer\\:\\:renderType\\(\\) expects string\\|null, array\\|string\\|null given\\.$#"
+			message: "#^Parameter \\#1 \\$type of method CodeGenerator\\\\Component\\\\JTScript\\\\Renderer\\:\\:renderType\\(\\) expects string\\|null, array\\|string\\|null given\\.$#"
 			count: 1
-			path: src/Renderer.php
+			path: src/Component/JTScript/Renderer.php
 

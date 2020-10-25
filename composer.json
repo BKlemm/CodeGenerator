@@ -1,6 +1,6 @@
 {
-    "name":"jtgenerator/jtgenerator",
-    "description":"\uD83D\uDE0E Typescript and ES6 class generator \uD83D\uDE0E",
+    "name":"codegenerator/codegenerator",
+    "description":"\uD83D\uDE0E Class generator \uD83D\uDE0E",
     "homepage":"https://bumogen.com",
     "type":"library",
     "license": "MIT",
@@ -25,11 +25,19 @@
         "roave/security-advisories": "dev-master"
     },
 
+    "replace": {
+        "codegenerator/java": "self.version",
+        "codegenerator/jtscript": "self.version"
+    },
+
     "autoload": {
         "psr-4": {
-            "JTGenerator\\": "src/",
-            "JTGenerator\\Tests\\": "tests/Tests/"
-        }
+            "CodeGenerator\\Component\\": "src/Component/",
+            "CodeGenerator\\Contracts\\": "src/Contracts/"
+        },
+        "exclude-from-classmap": [
+            "**/Tests/"
+        ]
     },
 
     "scripts": {
