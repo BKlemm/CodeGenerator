@@ -24,6 +24,7 @@
     <testsuites>
         <testsuite name="CodeGenerator Test Suite">
             <directory>./src/Component/*/Tests</directory>
+            <directory>./src/Component/*/*/Tests/</directory>
         </testsuite>
     </testsuites>
 
