@@ -68,17 +68,17 @@ class JavaRenderer
             $annotations[] = $this->renderAnnotation($decorator);
         }
 
-        return ($class->hasPackage() ? 'package ' . $class->getPackage() .';'. PHP_EOL : '')
-            . ($class->hasImports() ? implode(PHP_EOL, $imports) . PHP_EOL : '')
-            .($class->hasComment() ? $class->formatComment() : '')
-            . ($class->hasAnnotations() ? implode(PHP_EOL,$annotations) .PHP_EOL : '')
+        return ($class->hasPackage() ? 'package ' . $class->getPackage() .';'. $this->nl(2) : '')
+            . ($imports ? implode(PHP_EOL, $imports) . $this->nl(2) : '')
+            . ($class->hasComment() ? $class->formatComment() : '')
+            . ($annotations ? implode(PHP_EOL, $annotations) .PHP_EOL : '')
             . ($class->isAbstract() ? 'abstract ' : '')
             . $class->getAccess()
             . ($class->isFinal() ? ' final ' : '')
             . 'class ' . $class->getName() . ' '
             . ($class->hasExtend() ? 'extends ' . $class->getExtend() : '')
             . ($class->hasImplements() ? 'implements ' . implode(', ', $class->getImplements()) : '')
-            . ' {' . PHP_EOL
+            . ' {' . $this->nl(2)
             . ($members ? $this->indent(implode(PHP_EOL, $members)) : '')
             . PHP_EOL.'}';
     }
@@ -90,10 +90,15 @@ class JavaRenderer
      */
     public function renderProperties(Property $property): string
     {
+        $annotations = [];
+        foreach ($property->getAnnotations() as $decorator) {
+            $annotations[] = $this->renderAnnotation($decorator);
+        }
+
         return ($property->hasComment() ? $property->formatComment() . PHP_EOL : '')
-            . ($property->hasAnnotations() ? $this->renderAnnotation($property->getAnnotation()) . PHP_EOL : '')
+            . ($annotations ? implode(PHP_EOL, $annotations) . PHP_EOL : '')
             . ($property->hasAccess() ? $property->getAccess() : '')
-            . $property->getType() . ' ' . $property->getName()
+            . $property->getType() . ' ' . $property->getName() . ';'
             . ($property->hasValue() ? $this->renderValue($property->getValue()) : '');
     }
 
@@ -106,11 +111,17 @@ class JavaRenderer
     {
         $method->validate();
 
-        return ($method->hasComment() ? $method->formatComment() : '')
+        $annotations = [];
+        foreach ($method->getAnnotations() as $decorator) {
+            $annotations[] = $this->renderAnnotation($decorator);
+        }
+
+        return PHP_EOL . ($method->hasComment() ? $method->formatComment() : '')
+            . ($annotations ? implode(PHP_EOL, $annotations) . PHP_EOL : '')
             . ($method->isAbstract() ? 'abstract ' : '')
-            . ($method->hasAccess() ? $method->getAccess().' ' : '')
+            . ($method->hasAccess() ? $method->getAccess() . ' ' : '')
             . ($method->isStatic() ? 'static ' : '')
-            . ($method->isFinal() ? ' final ' : '')
+            . ($method->isFinal() ? 'final ' : '')
             . $method->getReturnType() . ' '
             . $method->getName()
             . '('.$this->renderParameter($method).')'
@@ -183,21 +194,6 @@ class JavaRenderer
         return $res . ';';
     }
 
-    /**
-     * @param Constant $constant
-     *
-     * @return string
-     */
-    public function renderConstant(Constant $constant): string
-    {
-        $members = $this->renderMembers($constant);
-
-        if ($constant->hasValue()) {
-            return ($constant->hasComment() ? $constant->formatComment() : '')
-                . $constant->getName() . ' = '
-                . ($constant->isQuoted() ? "'" .$constant->getValue() ."';" : $constant->getValue());
-        }
-    }
 
     /**
      * @param ArrowFunction $value
@@ -235,7 +231,7 @@ class JavaRenderer
         return array_filter(
             [
                 implode($glue, $properties),
-                ($methods && $properties ? str_repeat(PHP_EOL, 2) : '')
+                ($methods && $properties ? $this->nl(2) : '')
                 . implode($glue,$methods)
             ]
         );
@@ -263,6 +259,16 @@ class JavaRenderer
     {
         $data = (string) json_encode($data,(JSON_PRETTY_PRINT | JSON_THROW_ON_ERROR));
         return strtr($data, [\chr(34) => '']);
+    }
+
+    /**
+     * @param int $multiplier
+     *
+     * @return string
+     */
+    public function nl(int $multiplier = 1): string
+    {
+        return str_repeat(PHP_EOL,$multiplier);
     }
 
 }
