@@ -43,12 +43,14 @@
     "scripts": {
         "test": "vendor/bin/phpunit",
         "phpstan": "vendor/bin/phpstan analyse",
+        "phpstan-baseline": "vendor/bin/phpstan analyse --generate-baseline",
         "phpcs": "vendor/bin/phpcs"
     },
 
     "scripts-descriptions": {
         "test": "Run all unit tests",
         "phpstan": "Static code analysis, find properly bugs",
+        "phpstan-baseline": "Generate",
         "phpcs": "Coding Standards"
     }
 }
